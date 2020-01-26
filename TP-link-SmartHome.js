@@ -56,7 +56,7 @@ function scriptParameterChanged(param)
 	
 		script.log("Activating HS110...");
 		//local.send("Test String\n");
-		local.sendBytes(34,123,13);
+		local.sendBytes(34);
 
 
 	} else if(param.is(deactivate)) {
@@ -162,4 +162,53 @@ function discoverDevices()
 {
 	script.log("Attempting to disover devices on current network...");
 
+}
+
+function encrypt(request)
+{
+/*      
+    Encrypt a request for a TP-Link Smart Home Device.
+
+    :param request: plaintext request data
+    :return: ciphertext request
+*/
+
+    var key = 117;
+
+    var plainbytes = request;
+    //var buffer = bytearray(struct.pack(">I", len(plainbytes)));
+    var buffer = [];
+    buffer[0]=">I";
+    buffer[1]=plainbytes.length();
+
+    for(plainbyte in plainbytes) {
+        cipherbyte = key ^ plainbyte;
+        key = cipherbyte;
+        buffer.append(cipherbyte);
+    }
+
+    return bytes(buffer);
+}
+
+
+function decrypt(ciphertext)
+{
+/*
+    Decrypt a response of a TP-Link Smart Home Device.
+
+    :param ciphertext: encrypted response data
+    :return: plaintext response
+*/
+
+    var key = 117;
+    var buffer = [];
+
+    for(cipherbyte in ciphertext) {
+        plainbyte = key ^ cipherbyte;
+        key = cipherbyte;
+        buffer.append(plainbyte);
+
+    plaintext = bytes(buffer);
+
+    return plaintext.decode();
 }
