@@ -5,8 +5,8 @@
 	
 	"version":"1.0.0",
 	"description":"Control TP-Link SmartHome appliance",
-	"url":"https://github.com/Theoriz/TP-Link-SmartHome-chataigne-module",
-	"downloadURL":"https://github.com/Theoriz/TP-Link-SmartHome-chataigne-module/archive/master.zip",
+	"url":"https://github.com/lyptik/TP-Link-SmartHome-chataigne-module",
+	"downloadURL":"https://github.com/lyptik/TP-Link-SmartHome-chataigne-module/archive/master.zip",
 	
 	"hideDefaultCommands":false,
 	"hideDefaultParameters": ["autoRange", "autoFeedback", "RemotePort", "Local"],
