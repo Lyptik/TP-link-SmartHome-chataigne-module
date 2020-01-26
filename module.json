@@ -1,0 +1,62 @@
+{
+	"name":"TP-Link SmartHome",
+	"type":"TCP Client",
+	"path":"Hardware",
+	
+	"version":"1.0.0",
+	"description":"Control TP-Link SmartHome appliance",
+	"url":"https://github.com/Theoriz/TP-Link-SmartHome-chataigne-module",
+	"downloadURL":"https://github.com/Theoriz/TP-Link-SmartHome-chataigne-module/archive/master.zip",
+	
+	"hideDefaultCommands":false,
+	"hideDefaultParameters": ["autoRange", "autoFeedback", "RemotePort", "Local"],
+
+	"parameters":
+	{
+		"Type":
+		{
+			"type":"Enum",
+			"options":
+			{
+				"HS100":"HS100",
+				"HS110":"HS110"
+			},
+
+		},
+		"DiscoverDevices": { "type":"Trigger" },
+		"Found Devices":
+		{
+			"type":"Container",
+			"collapsed":true,
+
+			"Device 0 Ip Address":  { "type":"String"},
+			"Device 0 type":  { "type":"String"},
+			"Device 1 Ip Address":  { "type":"String"},
+			"Device 1 type":  { "type":"String"},
+		},
+
+	},
+
+	"defaults":
+	{		
+		"Output":
+		{
+			"RemotePort":9999,
+			"local":false,
+		}	
+	},
+
+	"scripts":
+	[
+		"TP-link-SmartHome.js"
+	],
+
+	"values":
+	{
+	
+		"Activated":
+		{
+			"type":"Boolean",
+		},
+	}
+}
