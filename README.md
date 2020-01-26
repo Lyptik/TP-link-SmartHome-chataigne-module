@@ -35,14 +35,18 @@ Documentation
 This code is based on several references :
 
 HS110 reverse engineering documentation : https://www.softscheck.com/en/reverse-engineering-tp-link-hs110/#TP-Link%20Smart%20Home%20Protocol
+
 Python client and wireshark dissector : https://github.com/softScheck/tplink-smartplug
+
 Python Library and complete tool : https://github.com/GadgetReactor/pyHS100
 
 Dev
 ---
 
 Modify the script file, when you save, it gets automatically refreshed in Chataigne.
+
 Don't forget to activate the log to see the output of your script.
+
 When you modify the module.json file, you need to restart [Chataigne][] or Click on File -> Reload Custom Modules
 
 Contribute
