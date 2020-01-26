@@ -9,7 +9,7 @@
 	"downloadURL":"https://github.com/lyptik/TP-Link-SmartHome-chataigne-module/archive/master.zip",
 	
 	"hideDefaultCommands":false,
-	"hideDefaultParameters": ["autoRange", "autoFeedback", "RemotePort", "Local"],
+	"hideDefaultParameters": ["autoRange", "autoFeedback", "RemotePort", "pass_through", "output/local" ],
 
 	"parameters":
 	{
@@ -23,18 +23,52 @@
 			},
 
 		},
-		"DiscoverDevices": { "type":"Trigger" },
+		"Discover Devices": { "type":"Trigger" },
 		"Found Devices":
 		{
 			"type":"Container",
 			"collapsed":true,
-
-			"Device 0 Ip Address":  { "type":"String"},
-			"Device 0 type":  { "type":"String"},
-			"Device 1 Ip Address":  { "type":"String"},
-			"Device 1 type":  { "type":"String"},
+			"Device 1":
+			{
+				"type":"Container",
+				"collapsed":false,
+				"Ip Address":  { "type":"String"},
+				"Type":  { "type":"String"},
+				"Select this device" : { "type":"Trigger"},
+			},
+			"Device 2":
+			{
+				"type":"Container",
+				"collapsed":false,
+				"Ip Address":  { "type":"String"},
+				"Type":  { "type":"String"},
+				"Select this device" : { "type":"Trigger"},
+			},
+			"Device 3":
+			{
+				"type":"Container",
+				"collapsed":false,
+				"Ip Address":  { "type":"String"},
+				"Type":  { "type":"String"},
+				"Select this device" : { "type":"Trigger"},
+			},
+			"Device 4":
+			{
+				"type":"Container",
+				"collapsed":false,
+				"Ip Address":  { "type":"String"},
+				"Type":  { "type":"String"},
+				"Select this device" : { "type":"Trigger"},
+			},
+			"Device 5":
+			{
+				"type":"Container",
+				"collapsed":false,
+				"Ip Address":  { "type":"String"},
+				"Type":  { "type":"String"},
+				"Select this device" : { "type":"Trigger"},
+			},
 		},
-
 	},
 
 	"defaults":
