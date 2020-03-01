@@ -21,12 +21,12 @@
 				"HS100":"HS100",
 				"HS110":"HS110"
 			},
-
 		},
 		"Discover Devices": { "type":"Trigger" },
 		"Found Devices":
 		{
 			"type":"Container",
+			"index":0,
 			"collapsed":true,
 			"Device 1":
 			{

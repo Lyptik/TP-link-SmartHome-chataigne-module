@@ -160,8 +160,35 @@ function dataReceived(data)
 
 function discoverDevices()
 {
-	script.log("Attempting to disover devices on current network...");
+	/*
+	Sends discovery message to 255.255.255.255:9999 in order
+    to detect available supported devices in the local network,
+    and waits for given timeout for answers from devices.
+    Receives an array of json objects {"ip", "port", "sys_info"}
+	*/
 
+	broadcastIP = "255.255.255.255";
+	broadcastPort = 9999;
+	timeout = 3;
+    discoveryPackets=3;
+    
+    /*discoverQuery = "{\
+    	"system": {"get_sysinfo": None},\
+        "emeter": {"get_realtime": None},\
+        "smartlife.iot.dimmer": {"get_dimmer_parameters": None},\
+        "smartlife.iot.common.emeter": {"get_realtime": None},\
+        "smartlife.iot.smartbulb.lightingservice": {"get_light_state": None},\
+    }";*/
+
+    discoverQuery=""test"\
+    test2";
+    script.log("DiscoverQuery : "+discoverQuery);
+
+	script.log("Attempting to discover devices on current network...");
+	    
+	// Send discover query
+	// Receive ip and port and type
+	// Store and display result in list of device found
 }
 
 function encrypt(request)
@@ -181,11 +208,11 @@ function encrypt(request)
     buffer[0]=">I";
     buffer[1]=plainbytes.length();
 
-    for(plainbyte in plainbytes) {
+    /*for(plainbyte in plainbytes) {
         cipherbyte = key ^ plainbyte;
         key = cipherbyte;
         buffer.append(cipherbyte);
-    }
+    }*/
 
     return bytes(buffer);
 }
@@ -203,12 +230,12 @@ function decrypt(ciphertext)
     var key = 117;
     var buffer = [];
 
-    for(cipherbyte in ciphertext) {
+    /*for(cipherbyte in ciphertext) {
         plainbyte = key ^ cipherbyte;
         key = cipherbyte;
         buffer.append(plainbyte);
 
-    plaintext = bytes(buffer);
+    plaintext = bytes(buffer);*/
 
     return plaintext.decode();
 }
