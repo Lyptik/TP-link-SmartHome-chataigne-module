@@ -8,8 +8,9 @@
 
 // You can add custom parameters to use in your script here, they will be replaced each time this script is saved
 //var myFloatParam = script.addFloatParameter("My Float Param","Description of my float param",.1,0,1); 		//This will add a float number parameter (slider), default value of 0.1, with a range between 0 and 1
-var activate = script.addTrigger("Activate HS110", "Activate HS110");
-var deactivate = script.addTrigger("Deactivate HS110", "Deactivate HS110");
+var turnOnParam = script.addTrigger("Turn HS110 on", "Turn HS110 on");
+var turnOffParam = script.addTrigger("Turn HS110 off", "Turn HS110 off");
+var queryStateParam = script.addTrigger("Query HS110 state", "Query HS110 state");
 
 //Here are all the type of parameters you can create
 /*
@@ -52,20 +53,19 @@ function scriptParameterChanged(param)
 {
 	//You can use the script.log() function to show an information inside the logger panel. To be able to actuallt see it in the logger panel, you will have to turn on "Log" on this script.
 	//script.log("Parameter changed : "+param.name); //All parameters have "name" property
-	if(param.is(activate)) {
-	
-		script.log("Activating HS110...");
-		//local.send("Test String\n");
-		local.sendBytes(34);
+	if(param.is(turnOnParam)) {
 
+		turnOn();
 
-	} else if(param.is(deactivate)) {
+	} else if(param.is(turnOffParam)) {
 
-		script.log("Deactivating HS110...");
-		local.send("Test String"); 		
+		turnOff();
+	} else if(param.is(queryStateParam)) {
+
+		queryState();
 	}
 	else if(param.is(myEnumParam)) script.log("Label = "+param.get()+", data = "+param.getData()); //The enum parameter has a special function getData() to get the data associated to the option
-	else script.log("Value is "+param.get()); //All parameters have a get() method that will return their value
+	//else script.log("Value is "+param.get()); //All parameters have a get() method that will return their value}
 }
 
 /*
@@ -104,7 +104,6 @@ function moduleParameterChanged(param)
 		{
 			discoverDevices();
 		}
-			
 	}
 }
 
@@ -122,12 +121,7 @@ function moduleValueChanged(value)
 	{
 		script.log("Module value triggered : "+value.name);	
 	}
-
-
 }
-
-	
-
 
 /* ********** STREAMING MODULE (UDP, SERIAL) SPECIFIC SCRIPTING ********************* */
 /*
@@ -158,6 +152,38 @@ function dataReceived(data)
 	}
 }
 
+function turnOn()
+{
+	script.log("Turning HS110 on...");
+	turnOnH110Query = 
+	{
+		"system":{"set_relay_state":{"state": 1}}
+	};
+
+	local.send(encrypt(activateH110Query));
+	// query state here ?
+}
+
+function turnOff()
+{
+	script.log("Turning HS110 off...");
+	turnoOffH110Query =
+	{
+		"system":{"set_relay_state":{"state": 0}}
+	};
+
+	local.send(encrypt(deactivateH110Query));
+	// query state here ? 
+}
+
+function queryState()
+{
+	script.log("Querying state of HS110...");
+	queryStateH110Query = "";
+	local.send(encrypt(deactivateH110Query));
+	//activated.set(true);
+}	
+
 function discoverDevices()
 {
 	/*
@@ -172,21 +198,23 @@ function discoverDevices()
 	timeout = 3;
     discoveryPackets=3;
     
-    /*discoverQuery = "{\
-    	"system": {"get_sysinfo": None},\
-        "emeter": {"get_realtime": None},\
-        "smartlife.iot.dimmer": {"get_dimmer_parameters": None},\
-        "smartlife.iot.common.emeter": {"get_realtime": None},\
-        "smartlife.iot.smartbulb.lightingservice": {"get_light_state": None},\
-    }";*/
-
-    discoverQuery=""test"\
-    test2";
-    script.log("DiscoverQuery : "+discoverQuery);
-
+    // Forge query
+    var discoverQuery =
+    {
+    	"system": {"get_sysinfo": None},
+        "emeter": {"get_realtime": None},
+        "smartlife.iot.dimmer": {"get_dimmer_parameters": None},
+        "smartlife.iot.common.emeter": {"get_realtime": None},
+        "smartlife.iot.smartbulb.lightingservice": {"get_light_state": None}
+    };
+	
 	script.log("Attempting to discover devices on current network...");
-	    
+	//script.log("Sending Discover Query :" + JSON.stringify(discoverQuery));
+
 	// Send discover query
+	local.send(encrypt(discoverQuery));
+	
+
 	// Receive ip and port and type
 	// Store and display result in list of device found
 }
@@ -199,22 +227,29 @@ function encrypt(request)
     :param request: plaintext request data
     :return: ciphertext request
 */
-
-    var key = 117;
-
+/*
+code to port
+def encrypt(request: str) -> bytearray:
+key = TPLinkSmartHomeProtocol.INITIALIZATION_VECTOR
+        plainbytes = request.encode()
+        buffer = bytearray(struct.pack(">I", len(plainbytes)))
+        for plainbyte in plainbytes:
+            cipherbyte = key ^ plainbyte
+            key = cipherbyte
+            buffer.append(cipherbyte)
+        return bytes(buffer)
+*/
+/*    var key = 117; // INITIALIZATION_VECTOR
     var plainbytes = request;
-    //var buffer = bytearray(struct.pack(">I", len(plainbytes)));
     var buffer = [];
-    buffer[0]=">I";
-    buffer[1]=plainbytes.length();
-
+*/
     /*for(plainbyte in plainbytes) {
         cipherbyte = key ^ plainbyte;
         key = cipherbyte;
         buffer.append(cipherbyte);
     }*/
 
-    return bytes(buffer);
+    //return bytes(buffer);
 }
 
 
